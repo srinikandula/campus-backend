@@ -8,5 +8,8 @@ import lombok.Setter;
 public class Client {
     private long id;
     private String name;
-    private String address;
+    private String phoneno;
+    private String email;
+    private String fileno;
+    private String financialframework;
 }

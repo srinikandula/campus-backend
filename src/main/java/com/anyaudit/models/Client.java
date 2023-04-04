@@ -29,7 +29,19 @@ public class Client {
 
   @NotBlank
   @Size(max = 50)
-  private String address;
+  private String phoneno;
+
+  @NotBlank
+  @Size(max = 50)
+  private String email;
+
+  @NotBlank
+  @Size(max = 50)
+  private String fileno;
+
+  @NotBlank
+  @Size(max = 50)
+  private String financialframework;
 
 
 }
