@@ -1,5 +1,8 @@
 package com.anyaudit.springjwt.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +17,8 @@ import javax.validation.constraints.Size;
       @UniqueConstraint(columnNames = "username"),
       @UniqueConstraint(columnNames = "email") 
     })
+@Getter
+@Setter
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
