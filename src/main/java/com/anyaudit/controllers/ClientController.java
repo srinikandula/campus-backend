@@ -3,6 +3,7 @@ package com.anyaudit.controllers;
 import com.anyaudit.payload.request.Client;
 import com.anyaudit.repository.ClientRepository;
 import com.anyaudit.service.ClientManager;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,12 @@ public class ClientController {
     public ResponseEntity<?> deleteClient(@PathVariable Long id) {
         clientManager.deleteClient(id);
         return ResponseEntity.ok().body("Client with ID " + id + " successfully deleted.");
+    }
+
+    @GetMapping("/clients/count")
+    public ResponseEntity<String> getClientCount() {
+        Long count = clientManager.getClientCount();
+        String message = "Total number of clients in the database: " + count;
+        return ResponseEntity.ok(message);
     }
 }

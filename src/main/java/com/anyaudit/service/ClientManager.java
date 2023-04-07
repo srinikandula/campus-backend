@@ -82,4 +82,10 @@ public class ClientManager {
     public void deleteClient(Long id) {
         clientRepository.deleteById(id);
     }
+
+    public Long getClientCount() {
+        return clientRepository.getClientCount();
+    }
+
+
 }
