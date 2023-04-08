@@ -9,7 +9,7 @@ public class Milestone {
     private long id;
     private String assignmentname;
     private String typeofassignment;
-    private String milestonename;
+    private String milestoneName;
     private String checkeruser;
     private String team;
     private String startdate;

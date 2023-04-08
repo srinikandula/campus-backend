@@ -1,7 +1,6 @@
 package com.anyaudit.service;
 
 import com.anyaudit.exception.UserNotFoundException;
-import com.anyaudit.payload.request.Assignment;
 import com.anyaudit.payload.request.Milestone;
 import com.anyaudit.repository.MilestoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class MilestoneManager {
         com.anyaudit.models.Milestone c = new com.anyaudit.models.Milestone();
         c.setId(milestone.getId());
         c.setAssignmentname(milestone.getAssignmentname());
-        c.setMilestonename(milestone.getMilestonename());
+        c.setMilestoneName(milestone.getMilestoneName());
         c.setCheckeruser(milestone.getCheckeruser());
         c.setTeam(milestone.getTeam());
         c.setStartdate(milestone.getStartdate());
@@ -36,7 +35,7 @@ public class MilestoneManager {
             Milestone milestone = new Milestone();
             milestone.setId(c.getId());
             milestone.setAssignmentname(c.getAssignmentname());
-            milestone.setMilestonename(c.getMilestonename());
+            milestone.setMilestoneName(c.getMilestoneName());
             milestone.setCheckeruser(c.getCheckeruser());
             milestone.setTeam(c.getTeam());
             milestone.setStartdate(c.getStartdate());
@@ -53,7 +52,7 @@ public class MilestoneManager {
             Milestone milestone = new Milestone();
             milestone.setId(c.getId());
             milestone.setAssignmentname(c.getAssignmentname());
-            milestone.setMilestonename(c.getMilestonename());
+            milestone.setMilestoneName(c.getMilestoneName());
             milestone.setCheckeruser(c.getCheckeruser());
             milestone.setTeam(c.getTeam());
             milestone.setStartdate(c.getStartdate());
@@ -69,7 +68,7 @@ public class MilestoneManager {
         if (optionalMilestone.isPresent()) {
             com.anyaudit.models.Milestone c = optionalMilestone.get();
             c.setAssignmentname(milestone.getAssignmentname());
-            c.setMilestonename(milestone.getMilestonename());
+            c.setMilestoneName(milestone.getMilestoneName());
             c.setCheckeruser(milestone.getCheckeruser());
             c.setTeam(milestone.getTeam());
             c.setStartdate(milestone.getStartdate());

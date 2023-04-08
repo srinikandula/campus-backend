@@ -32,7 +32,7 @@ public class Milestone {
 
     @NotBlank
     @Size(max = 30)
-    private String milestonename;
+    private String milestoneName;
 
     @NotBlank
     @Size(max = 30)
