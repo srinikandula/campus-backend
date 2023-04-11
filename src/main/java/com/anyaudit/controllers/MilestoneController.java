@@ -1,17 +1,19 @@
 package com.anyaudit.controllers;
 
 
-import com.anyaudit.payload.request.Assignment;
-import com.anyaudit.payload.request.Milestone;
+import com.anyaudit.models.Assignment;
+import com.anyaudit.models.Milestone;
 import com.anyaudit.service.MilestoneManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -22,36 +24,36 @@ public class MilestoneController {
     @Autowired
     private MilestoneManager milestoneManager;
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addMilestone(@Valid @RequestBody Milestone milestone) {
-        milestoneManager.saveMilestone(milestone);
-        return ResponseEntity.ok(milestone);
+    @GetMapping("/list")
+    public List<Milestone> getAllMilestone() {
+        return milestoneManager.getAllMilestone();
     }
 
-    @GetMapping("/milestones")
-    public ResponseEntity<List<Milestone>> getAllMilestone() {
-        List<Milestone> milestones = milestoneManager.getAllMilestone();
-        if (milestones.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.ok(milestones);
+    @GetMapping("/{id}")
+    public Optional<Milestone> getMilestoneById(@PathVariable Long id) {
+        return milestoneManager.getMilestoneById(id);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<?> saveMilestone(@RequestBody Milestone milestone) {
+        try {
+            Milestone save = milestoneManager.saveMilestone(milestone);
+            return ResponseEntity.ok(save);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while saving the assignment: " + e.getMessage());
         }
     }
 
-    @GetMapping("/milestone/{MilestoneId}")
-    public ResponseEntity<Milestone> getClientById(@PathVariable Long MilestoneId) {
-        Milestone milestone = milestoneManager.getMilestoneById(MilestoneId);
-        if (milestone == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(milestone);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateMilestone(@PathVariable Long id, @RequestBody Milestone updated) {
+        try {
+            Milestone savedMilestone = milestoneManager.updateMilestone(id, updated);
+            return ResponseEntity.ok(savedMilestone);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while updating the assignment: " + e.getMessage());
         }
-    }
-
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateMilestone(@PathVariable Long id, @Valid @RequestBody Milestone milestone) {
-        Milestone updateMilestone = milestoneManager.updateMilestone(id, milestone);
-        return ResponseEntity.ok(updateMilestone);
     }
 
     @DeleteMapping("/delete/{id}")

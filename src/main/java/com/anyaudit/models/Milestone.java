@@ -1,6 +1,8 @@
 package com.anyaudit.models;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,32 +25,45 @@ import java.util.Set;
 @Setter
 
 
-public class Milestone {
+public class Milestone implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Size(max = 30)
-    private String assignmentname;
 
     @NotBlank
     @Size(max = 30)
+    @Column(name = "milestone_name")
     private String milestoneName;
 
     @NotBlank
     @Size(max = 30)
-    private String checkeruser;
+    @Column(name = "checker_user")
+    private String checkerUser;
 
     @NotBlank
     @Size(max = 30)
+    @Column(name = "team")
     private String team;
 
-    @NotBlank
-    @Size(max = 20)
-    private String startdate;
+//    @NotBlank
 
-    @NotBlank
-    @Size(max = 20)
-    private String enddate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+    @Column(name = "start_date")
+    private Date startDate;
+
+//    @NotBlank
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+    @Column(name = "end_date")
+    private Date endDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", referencedColumnName = "client_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Client client;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assignment_id", referencedColumnName = "assignment_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Assignment assignment;
 }

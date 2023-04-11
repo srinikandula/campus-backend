@@ -1,12 +1,9 @@
 package com.anyaudit.service;
 
 import com.anyaudit.exception.UserNotFoundException;
-import com.anyaudit.payload.request.Client;
+import com.anyaudit.models.Client;
 import com.anyaudit.repository.ClientRepository;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,74 +15,83 @@ public class ClientManager {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client saveClient(Client client) {
+    public Client addClient(Client client) {
         com.anyaudit.models.Client c = new com.anyaudit.models.Client();
         c.setId(client.getId());
-        c.setPhoneno(client.getPhoneno());
         c.setName(client.getName());
+        c.setPhoneNo(client.getPhoneNo());
         c.setEmail(client.getEmail());
-        c.setFileno(client.getFileno());
-        c.setFinancialframework(client.getFinancialframework());
-        clientRepository.save(c);
-        return client;
+        c.setFileNo(client.getFileNo());
+        c.setFinancialFramework(client.getFinancialFramework());
+        com.anyaudit.models.Client savedClient = clientRepository.save(c);
+        Client saved = new Client();
+        saved.setId(savedClient.getId());
+        saved.setName(savedClient.getName());
+        saved.setPhoneNo(savedClient.getPhoneNo());
+        saved.setEmail(savedClient.getEmail());
+        saved.setFileNo(savedClient.getFileNo());
+        saved.setFinancialFramework(savedClient.getFinancialFramework());
+        return saved;
     }
 
     public List<Client> getAllClients() {
-        List<com.anyaudit.models.Client> clients = clientRepository.findAll();
+        List<com.anyaudit.models.Client> assignments = clientRepository.findAll();
         List<Client> result = new ArrayList<>();
-        for (com.anyaudit.models.Client c : clients) {
-            Client client = new Client();
-            client.setId(c.getId());
-            client.setPhoneno(client.getPhoneno());
-            client.setName(c.getName());
-            client.setEmail(c.getEmail());
-            client.setFileno(c.getFileno());
-            client.setFinancialframework(c.getFinancialframework());
-            result.add(client);
+        for (com.anyaudit.models.Client c : assignments) {
+            Client assignment = new Client();
+            assignment.setId(c.getId());
+            assignment.setName(c.getName());
+            assignment.setPhoneNo(c.getPhoneNo());
+            assignment.setEmail(c.getEmail());
+            assignment.setFileNo(c.getFileNo());
+            assignment.setFinancialFramework(c.getFinancialFramework());
+            result.add(assignment);
         }
         return result;
     }
 
-    public Client getClientById(Long clientId) {
-        Optional<com.anyaudit.models.Client> optionalClient = clientRepository.findById(clientId);
-        if (optionalClient.isPresent()) {
-            com.anyaudit.models.Client c = optionalClient.get();
-            Client client = new Client();
-            client.setId(c.getId());
-            client.setPhoneno(c.getPhoneno());
-            client.setName(c.getName());
-            client.setEmail(c.getEmail());
-            client.setFileno(c.getFileno());
-            client.setFinancialframework(c.getFinancialframework());
-            return client;
-        } else {
+    public Client getClientById(long clientId) {
+        com.anyaudit.models.Client c = clientRepository.findById(clientId).orElse(null);
+        if (c == null) {
             return null;
         }
+        Client client = new Client();
+        client.setId(c.getId());
+        client.setName(c.getName());
+        client.setPhoneNo(c.getPhoneNo());
+        client.setEmail(c.getEmail());
+        client.setFileNo(c.getFileNo());
+        client.setFinancialFramework(c.getFinancialFramework());
+        return client;
     }
 
-    public Client updateClient(Long id, Client client) {
-        Optional<com.anyaudit.models.Client> optionalClient = clientRepository.findById(id);
-        if (optionalClient.isPresent()) {
-            com.anyaudit.models.Client c = optionalClient.get();
-            c.setPhoneno(client.getPhoneno());
-            c.setName(client.getName());
-            c.setEmail(client.getEmail());
-            c.setFileno(client.getFileno());
-            c.setFinancialframework(client.getFinancialframework());
-            clientRepository.save(c);
-            return client;
-        } else {
-            throw new UserNotFoundException(id);
+
+    public Client updateClient(Client client) {
+        com.anyaudit.models.Client c = clientRepository.findById(client.getId()).orElse(null);
+        if (c == null) {
+            return null;
         }
+        c.setName(client.getName());
+        c.setPhoneNo(client.getPhoneNo());
+        c.setEmail(client.getEmail());
+        c.setFileNo(client.getFileNo());
+        c.setFinancialFramework(client.getFinancialFramework());
+        com.anyaudit.models.Client savedClient = clientRepository.save(c);
+        Client saved = new Client();
+        saved.setId(savedClient.getId());
+        saved.setName(savedClient.getName());
+        saved.setPhoneNo(savedClient.getPhoneNo());
+        saved.setEmail(savedClient.getEmail());
+        saved.setFileNo(savedClient.getFileNo());
+        saved.setFinancialFramework(savedClient.getFinancialFramework());
+        return saved;
     }
+
 
     public void deleteClient(Long id) {
         clientRepository.deleteById(id);
     }
 
-    public Long getClientCount() {
-        return clientRepository.getClientCount();
-    }
 
 
 }

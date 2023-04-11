@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,30 +19,35 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Client {
+public class Client implements Serializable {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "client_id")
   private Long id;
 
   @NotBlank
-  @Size(max = 20)
+  @Column(name = "name")
   private String name;
 
   @NotBlank
   @Size(max = 50)
-  private String phoneno;
+  @Column(name = "phone_no")
+  private String phoneNo;
 
   @NotBlank
   @Size(max = 50)
+  @Column(name = "email")
   private String email;
 
   @NotBlank
   @Size(max = 50)
-  private String fileno;
+  @Column(name = "file_no")
+  private String fileNo;
 
   @NotBlank
   @Size(max = 50)
-  private String financialframework;
-
+  @Column(name = "financial_framework")
+  private String financialFramework;
 
 }
