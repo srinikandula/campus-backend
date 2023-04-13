@@ -11,9 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClientManager {
+public class    ClientManager {
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    public ClientManager(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     public Client addClient(Client client) {
         com.anyaudit.models.Client c = new com.anyaudit.models.Client();
@@ -23,6 +27,9 @@ public class ClientManager {
         c.setEmail(client.getEmail());
         c.setFileNo(client.getFileNo());
         c.setFinancialFramework(client.getFinancialFramework());
+        c.setCreatedBy(client.getCreatedBy());
+//        c.setUpdatedBy(client.getUpdatedBy());
+//        c.setCreatedDate(client.getCreatedDate());
         com.anyaudit.models.Client savedClient = clientRepository.save(c);
         Client saved = new Client();
         saved.setId(savedClient.getId());
@@ -31,6 +38,9 @@ public class ClientManager {
         saved.setEmail(savedClient.getEmail());
         saved.setFileNo(savedClient.getFileNo());
         saved.setFinancialFramework(savedClient.getFinancialFramework());
+        saved.setCreatedBy(savedClient.getCreatedBy());
+        saved.setUpdatedBy(savedClient.getUpdatedBy());
+        saved.setCreatedDate(savedClient.getCreatedDate());
         return saved;
     }
 
@@ -45,6 +55,10 @@ public class ClientManager {
             assignment.setEmail(c.getEmail());
             assignment.setFileNo(c.getFileNo());
             assignment.setFinancialFramework(c.getFinancialFramework());
+            assignment.setCreatedBy(c.getCreatedBy());
+            assignment.setUpdatedBy(c.getUpdatedBy());
+            assignment.setCreatedDate(c.getCreatedDate());
+            assignment.setUpdatedDate(c.getUpdatedDate());
             result.add(assignment);
         }
         return result;
@@ -62,6 +76,8 @@ public class ClientManager {
         client.setEmail(c.getEmail());
         client.setFileNo(c.getFileNo());
         client.setFinancialFramework(c.getFinancialFramework());
+        client.setCreatedBy(c.getCreatedBy());
+        client.setUpdatedBy(c.getUpdatedBy());
         return client;
     }
 
@@ -76,6 +92,8 @@ public class ClientManager {
         c.setEmail(client.getEmail());
         c.setFileNo(client.getFileNo());
         c.setFinancialFramework(client.getFinancialFramework());
+ //       c.setCreatedBy(client.getCreatedBy());
+//        c.setUpdatedBy(client.getUpdatedBy());
         com.anyaudit.models.Client savedClient = clientRepository.save(c);
         Client saved = new Client();
         saved.setId(savedClient.getId());
@@ -84,6 +102,8 @@ public class ClientManager {
         saved.setEmail(savedClient.getEmail());
         saved.setFileNo(savedClient.getFileNo());
         saved.setFinancialFramework(savedClient.getFinancialFramework());
+//        saved.setCreatedBy(savedClient.getCreatedBy());
+//        saved.setUpdatedBy(savedClient.getUpdatedBy());
         return saved;
     }
 
@@ -93,5 +113,7 @@ public class ClientManager {
     }
 
 
-
+    public List<Object[]> findNameAndId() {
+        return clientRepository.findNameAndId();
+    }
 }

@@ -122,4 +122,7 @@ public class AssignmentManager {
         assignmentRepository.deleteById(id);
 
     }
+    public List<Object[]> findAssignmentsByClientId(Long clientId) {
+        return assignmentRepository.findAssignmentsByClientId(clientId);
+    }
 }
