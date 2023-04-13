@@ -1,4 +1,6 @@
 package com.anyaudit.controllers;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.anyaudit.models.Client;
 import com.anyaudit.service.ClientManager;
@@ -10,8 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -60,5 +61,24 @@ public class ClientController {
         clientService.deleteClient(clientId);
         return ResponseEntity.noContent().build();
     }
+
+//    @GetMapping("/names")
+//    public List<Object[]> findNameAndId() {
+//        return clientService.findNameAndId();
+//    }
+    @GetMapping("/names")
+    public List<Map<String, Object>> findNameAndId() {
+        List<Object[]> clients = clientService.findNameAndId();
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        for (Object[] client : clients) {
+            Map<String, Object> clientMap = new HashMap<>();
+            clientMap.put("client_id", client[0]);
+            clientMap.put("name", client[1]);
+            resultList.add(clientMap);
+        }
+        return resultList;
+
+    }
+
 
 }

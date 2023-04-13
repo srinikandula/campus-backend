@@ -8,6 +8,7 @@
 //public class Milestone {
 //    private long id;
 //    private String assignmentname;
+
 //    private String typeofassignment;
 //    private String milestoneName;
 //    private String checkeruser;

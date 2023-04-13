@@ -23,7 +23,7 @@ import java.util.Set;
 @Getter
 @Setter
 
-public class Assignment implements Serializable {
+public class Assignment extends BaseModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,4 +78,5 @@ public class Assignment implements Serializable {
     @JoinColumn(name = "client_id", referencedColumnName = "client_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Client client;
+
 }

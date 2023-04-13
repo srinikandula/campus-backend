@@ -11,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -23,6 +22,10 @@ public class AssignmentController {
 
     @Autowired
     private AssignmentManager assignmentManager;
+
+    public AssignmentController(AssignmentManager assignmentService) {
+        this.assignmentManager = assignmentService;
+    }
 
     @GetMapping("/list")
     public List<Assignment> getAllAssignments() {
@@ -62,5 +65,17 @@ public class AssignmentController {
         return ResponseEntity.ok().body("Client with ID " + id + " successfully deleted.");
     }
 
+    @GetMapping("/client/{id}")
+    public List<Map<String, Object>> getClientAssignment(@PathVariable("id") Long id) {
+        List<Object[]> assignments = assignmentManager.findAssignmentsByClientId(id);
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        for (Object[] assignment : assignments) {
+            Map<String, Object> clientMap = new HashMap<>();
+            clientMap.put("assignment_id", assignment[0]);
+            clientMap.put("assignment_name", assignment[1]);
+            resultList.add(clientMap);
+        }
+        return resultList;
+    }
 }
 

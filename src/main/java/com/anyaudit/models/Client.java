@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Client implements Serializable {
+public class Client extends BaseModel {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
