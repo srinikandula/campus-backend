@@ -1,10 +1,9 @@
 package com.anyaudit.service;
 
 import com.anyaudit.CoreAppConfig;
-
-
-import com.anyaudit.models.Client;
+import com.anyaudit.models.Assignment;
 import com.anyaudit.models.Milestone;
+import com.anyaudit.util.CreateTestData;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 @ActiveProfiles("test")
 @ContextConfiguration(classes = { CoreAppConfig.class})
@@ -28,6 +27,9 @@ class MilestoneManagerTest {
     @Autowired
     private MilestoneManager milestoneManager;
 
+    @Autowired
+    private CreateTestData createTestData;
+
     @Before
     @After
     public void setup() {
@@ -36,7 +38,7 @@ class MilestoneManagerTest {
 
     @Test
     void saveMilestone() {
-
+        Assignment a = createTestData.createAssigment();
         Milestone milestone = new Milestone();
         milestone.setMilestoneName("M1");
         milestone.setTeam("team");
@@ -44,8 +46,8 @@ class MilestoneManagerTest {
         milestone.setEndDate(new Date());
         milestone.setCheckerUser("cuser");
         milestone.setTeam("Team");
-        milestone.setClient(new Client());
-        milestone.setClient(new Client());
+        milestone.setAssignment(a);
+        milestone.setClient(a.getClient());
 
 
         Milestone m = milestoneManager.saveMilestone(milestone);
