@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -52,7 +53,8 @@ class MilestoneManagerTest {
 
         Milestone m = milestoneManager.saveMilestone(milestone);
         assertNotNull(m);
-    }
+        List<Milestone> milestones = milestoneManager.find
+     }
 
     @Test
     void getAllMilestone() {
