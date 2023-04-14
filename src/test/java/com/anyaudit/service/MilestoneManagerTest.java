@@ -53,7 +53,6 @@ class MilestoneManagerTest {
 
         Milestone m = milestoneManager.saveMilestone(milestone);
         assertNotNull(m);
-        List<Milestone> milestones = milestoneManager.find
      }
 
     @Test

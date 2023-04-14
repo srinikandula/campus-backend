@@ -65,14 +65,14 @@ public class AssignmentController {
         return ResponseEntity.ok().body("Client with ID " + id + " successfully deleted.");
     }
 
-    @GetMapping("/client/{id}")
+    @GetMapping("/findByClientId/{id}")
     public List<Map<String, Object>> getClientAssignment(@PathVariable("id") Long id) {
-        List<Object[]> assignments = assignmentManager.findAssignmentsByClientId(id);
+        List<Assignment> assignments = assignmentManager.findAssignmentsByClientId(id);
         List<Map<String, Object>> resultList = new ArrayList<>();
-        for (Object[] assignment : assignments) {
+        for (Assignment assignment : assignments) {
             Map<String, Object> clientMap = new HashMap<>();
-            clientMap.put("assignment_id", assignment[0]);
-            clientMap.put("assignment_name", assignment[1]);
+            clientMap.put("assignment_id", assignment.getId());
+            clientMap.put("assignment_name", assignment.getAssignmentName());
             resultList.add(clientMap);
         }
         return resultList;

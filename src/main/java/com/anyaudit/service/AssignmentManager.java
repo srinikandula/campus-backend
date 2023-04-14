@@ -23,24 +23,14 @@ public class AssignmentManager {
 
     public List<Assignment> getAllAssignments() {
         List<com.anyaudit.models.Assignment> assignments = assignmentRepository.findAll();
-        List<Assignment> result = new ArrayList<>();
-        for (com.anyaudit.models.Assignment c : assignments) {
-            Assignment assignment = new Assignment();
-            assignment.setId(c.getId());
-            assignment.setAssignmentName(c.getAssignmentName());
-            assignment.setTypeofAssignment(c.getTypeofAssignment());
-            assignment.setFinancialYear(c.getFinancialYear());
-            assignment.setEngagementPartner(c.getEngagementPartner());
-            assignment.setReviewPartner(c.getReviewPartner());
-            assignment.setUsers(c.getUsers());
-            assignment.setValue(c.getValue());
-            assignment.setStartDate(c.getStartDate());
-            assignment.setEndDate(c.getEndDate());
-            assignment.setClient(c.getClient());
-            result.add(assignment);
-        }
-        return result;
+        return assignments;
     }
+    public List<Assignment> getAssignmentsByClientId(Long clientId) {
+        List<Assignment> assignments = assignmentRepository.findAssignmentsByClientId(clientId);
+        return assignments;
+    }
+
+
 
 
 
@@ -122,7 +112,7 @@ public class AssignmentManager {
         assignmentRepository.deleteById(id);
 
     }
-    public List<Object[]> findAssignmentsByClientId(Long clientId) {
+    public List<Assignment> findAssignmentsByClientId(Long clientId) {
         return assignmentRepository.findAssignmentsByClientId(clientId);
     }
 }
