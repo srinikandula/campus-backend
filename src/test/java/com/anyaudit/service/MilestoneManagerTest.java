@@ -2,7 +2,9 @@ package com.anyaudit.service;
 
 import com.anyaudit.CoreAppConfig;
 
-import com.anyaudit.payload.request.Milestone;
+
+import com.anyaudit.models.Client;
+import com.anyaudit.models.Milestone;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 @ActiveProfiles("test")
@@ -31,13 +36,18 @@ class MilestoneManagerTest {
 
     @Test
     void saveMilestone() {
+
         Milestone milestone = new Milestone();
         milestone.setMilestoneName("M1");
         milestone.setTeam("team");
-        milestone.setStartdate("startDate");
-        milestone.setAssignmentname("aname");
-        milestone.setCheckeruser("aname");
-        milestone.setEnddate("enddate");
+        milestone.setStartDate(new Date());
+        milestone.setEndDate(new Date());
+        milestone.setCheckerUser("cuser");
+        milestone.setTeam("Team");
+        milestone.setClient(new Client());
+        milestone.setClient(new Client());
+
+
         Milestone m = milestoneManager.saveMilestone(milestone);
         assertNotNull(m);
     }
