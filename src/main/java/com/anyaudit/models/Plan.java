@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,7 +52,9 @@ public class Plan extends BaseModel{
     @Column(name = "plan_hour")
     private Integer planHour;
 
-    @Column(name = "plan desc")
+
+    @Size(max = 255)
+    @Column(name = "plan_desc")
     private String planDesc;
 
 //    @ManyToMany(fetch = FetchType.LAZY)
