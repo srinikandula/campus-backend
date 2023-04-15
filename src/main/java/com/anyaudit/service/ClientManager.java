@@ -1,6 +1,5 @@
 package com.anyaudit.service;
 
-import com.anyaudit.exception.UserNotFoundException;
 import com.anyaudit.models.Client;
 import com.anyaudit.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class    ClientManager {
@@ -92,19 +90,8 @@ public class    ClientManager {
         c.setEmail(client.getEmail());
         c.setFileNo(client.getFileNo());
         c.setFinancialFramework(client.getFinancialFramework());
- //       c.setCreatedBy(client.getCreatedBy());
-//        c.setUpdatedBy(client.getUpdatedBy());
         com.anyaudit.models.Client savedClient = clientRepository.save(c);
-        Client saved = new Client();
-        saved.setId(savedClient.getId());
-        saved.setName(savedClient.getName());
-        saved.setPhoneNo(savedClient.getPhoneNo());
-        saved.setEmail(savedClient.getEmail());
-        saved.setFileNo(savedClient.getFileNo());
-        saved.setFinancialFramework(savedClient.getFinancialFramework());
-//        saved.setCreatedBy(savedClient.getCreatedBy());
-//        saved.setUpdatedBy(savedClient.getUpdatedBy());
-        return saved;
+        return savedClient;
     }
 
 
