@@ -1,6 +1,7 @@
 package com.anyaudit.controllers;
 
 
+import com.anyaudit.dto.AssignmentNameIDDTO;
 import com.anyaudit.models.Assignment;
 import com.anyaudit.service.AssignmentManager;
 import lombok.Getter;
@@ -66,14 +67,11 @@ public class AssignmentController {
     }
 
     @GetMapping("/findByClientId/{id}")
-    public List<Map<String, Object>> getClientAssignment(@PathVariable("id") Long id) {
+    public List<AssignmentNameIDDTO> getClientAssignmentNames(@PathVariable("id") Long id) {
         List<Assignment> assignments = assignmentManager.findAssignmentsByClientId(id);
-        List<Map<String, Object>> resultList = new ArrayList<>();
+        List<AssignmentNameIDDTO> resultList = new ArrayList<>();
         for (Assignment assignment : assignments) {
-            Map<String, Object> clientMap = new HashMap<>();
-            clientMap.put("assignment_id", assignment.getId());
-            clientMap.put("assignment_name", assignment.getAssignmentName());
-            resultList.add(clientMap);
+            resultList.add(new AssignmentNameIDDTO(assignment));
         }
         return resultList;
     }
