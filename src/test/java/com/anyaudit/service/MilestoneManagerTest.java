@@ -1,9 +1,11 @@
 package com.anyaudit.service;
 
 import com.anyaudit.CoreAppConfig;
+
 import com.anyaudit.models.Assignment;
 import com.anyaudit.models.Milestone;
 import com.anyaudit.util.CreateTestData;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -54,6 +56,7 @@ class MilestoneManagerTest {
         Milestone m = milestoneManager.saveMilestone(milestone);
         assertNotNull(m);
      }
+
 
     @Test
     void getAllMilestone() {
