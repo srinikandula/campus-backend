@@ -30,6 +30,7 @@ public class Assignment extends BaseModel {
     @Column(name = "assignment_id")
     private Long id;
 
+    @NotBlank
     @Column(name = "assignment_name")
     private String assignmentName;
 
