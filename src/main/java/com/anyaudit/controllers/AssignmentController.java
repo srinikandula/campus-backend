@@ -1,6 +1,7 @@
 package com.anyaudit.controllers;
 
 
+import com.anyaudit.dto.AssignmentNameIDDTO;
 import com.anyaudit.models.Assignment;
 import com.anyaudit.service.AssignmentManager;
 import lombok.Getter;
@@ -65,15 +66,12 @@ public class AssignmentController {
         return ResponseEntity.ok().body("Client with ID " + id + " successfully deleted.");
     }
 
-    @GetMapping("/client/{id}")
-    public List<Map<String, Object>> getClientAssignment(@PathVariable("id") Long id) {
-        List<Object[]> assignments = assignmentManager.findAssignmentsByClientId(id);
-        List<Map<String, Object>> resultList = new ArrayList<>();
-        for (Object[] assignment : assignments) {
-            Map<String, Object> clientMap = new HashMap<>();
-            clientMap.put("assignment_id", assignment[0]);
-            clientMap.put("assignment_name", assignment[1]);
-            resultList.add(clientMap);
+    @GetMapping("/findByClientId/{id}")
+    public List<AssignmentNameIDDTO> getClientAssignmentNames(@PathVariable("id") Long id) {
+        List<Assignment> assignments = assignmentManager.findAssignmentsByClientId(id);
+        List<AssignmentNameIDDTO> resultList = new ArrayList<>();
+        for (Assignment assignment : assignments) {
+            resultList.add(new AssignmentNameIDDTO(assignment));
         }
         return resultList;
     }

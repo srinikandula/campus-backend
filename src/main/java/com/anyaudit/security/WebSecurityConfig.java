@@ -1,5 +1,6 @@
 package com.anyaudit.security;
 
+import com.anyaudit.security.jwt.AuthEntryPointJwt;
 import com.anyaudit.security.jwt.AuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,15 +16,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import com.anyaudit.security.jwt.AuthEntryPointJwt;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableGlobalMethodSecurity(
-    // securedEnabled = true,
-    // jsr250Enabled = true,
-    prePostEnabled = true)
-public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
+        // securedEnabled = true,
+        // jsr250Enabled = true,
+        prePostEnabled = true)
+public class WebSecurityConfig  { // extends WebSecurityConfigurerAdapter {
   @Autowired
   UserDetailsService userDetailsService;
 
@@ -42,12 +44,11 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 
   @Bean
   public DaoAuthenticationProvider authenticationProvider() {
-      DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-       
-      authProvider.setUserDetailsService(userDetailsService);
-      authProvider.setPasswordEncoder(passwordEncoder());
-   
-      return authProvider;
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailsService);
+    authProvider.setPasswordEncoder(passwordEncoder());
+
+    return authProvider;
   }
 
 //  @Bean
@@ -77,21 +78,34 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 //
 //    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 //  }
-  
+
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .authorizeRequests().antMatchers("/api/auth/**").permitAll().and()
+            .authorizeRequests()
+            .antMatchers("/v3/api-docs/**").permitAll()
+            .antMatchers("/swagger-ui/index.html").permitAll()
+            .antMatchers("/swagger-ui/**").permitAll().and()
             .authorizeRequests().antMatchers("/api/noauth/**").permitAll()
             .antMatchers("/api/test/**").permitAll()
-        .anyRequest().authenticated();
-    
+            .anyRequest().authenticated();
+
     http.authenticationProvider(authenticationProvider());
 
     http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    
+
     return http.build();
   }
+  @Bean
+  public ViewResolver viewResolver() {
+    final InternalResourceViewResolver bean = new InternalResourceViewResolver();
+    bean.setViewClass(JstlView.class);
+    bean.setPrefix("/WEB-INF/views/");
+    bean.setSuffix(".jsp");
+    return bean;
+  }
+
 }
