@@ -1,6 +1,7 @@
 package com.anyaudit.service;
 
 import com.anyaudit.exception.UserNotFoundException;
+import com.anyaudit.models.Assignment;
 import com.anyaudit.models.Milestone;
 import com.anyaudit.repository.MilestoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +49,9 @@ public class MilestoneManager {
     public void deleteMilestone(Long id) {
         milestoneRepository.deleteById(id);
 
+    }
+
+    public List<Object[]> findMilestoneById(Long clientId) {
+        return milestoneRepository.findbyMilstoneId(clientId);
     }
 }

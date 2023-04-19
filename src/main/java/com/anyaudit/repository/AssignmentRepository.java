@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
-    @Query(value = "SELECT assignment_id, assignment_name FROM assignment WHERE client_id = :clientId", nativeQuery = true)
-    List<Assignment> findAssignmentsByClientId(@Param("clientId") Long clientId);
+        @Query(value = "SELECT assignment_id, assignment_name FROM assignment WHERE client_id = :clientId", nativeQuery = true)
+        List<Object[]> findAssignmentsByClientId(@Param("clientId") Long clientId);
+
 }

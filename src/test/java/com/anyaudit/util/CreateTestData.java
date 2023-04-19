@@ -2,8 +2,10 @@ package com.anyaudit.util;
 
 import com.anyaudit.models.Assignment;
 import com.anyaudit.models.Client;
+import com.anyaudit.models.Milestone;
 import com.anyaudit.repository.AssignmentRepository;
 import com.anyaudit.repository.ClientRepository;
+import com.anyaudit.repository.MilestoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +18,9 @@ public class CreateTestData {
 
     @Autowired
     private AssignmentRepository assignmentRepository;
+
+    @Autowired
+    private MilestoneRepository milestoneRepository;
 
     public Client createClient(){
         Client c = new Client();
@@ -40,5 +45,19 @@ public class CreateTestData {
         a.setFinancialYear("2013");
         a.setTypeofAssignment("loans");
         return assignmentRepository.save(a);
+    }
+
+    public Milestone createMilestone(){
+        Client c = createClient();
+        Assignment a = createAssigment();
+        Milestone m = new Milestone();
+        m.setMilestoneName("mmm");
+        m.setCheckerUser("user");
+        m.setTeam("team");
+        m.setStartDate(new Date());
+        m.setEndDate(new Date());
+        m.setClient(c);
+        m.setAssignment(a);
+        return milestoneRepository.save(m);
     }
 }

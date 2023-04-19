@@ -12,8 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -60,5 +59,18 @@ public class MilestoneController {
     public ResponseEntity<?> deleteMilestone(@PathVariable Long id) {
         milestoneManager.deleteMilestone(id);
         return ResponseEntity.ok().body("Client with ID " + id + " successfully deleted.");
+    }
+
+    @GetMapping("/findByClientId/{id}")
+    public List<Map<String, Object>> findMilestoneById(@PathVariable("id") Long id) {
+        List<Object[]> milestones = milestoneManager.findMilestoneById(id);
+        List<Map<String, Object>> resultList = new ArrayList<>();
+        for (Object[] milestone : milestones) {
+            Map<String, Object> assignmentMap = new HashMap<>();
+            assignmentMap.put("milestone_id", milestone[0]);
+            assignmentMap.put("milestone_name", milestone[1]);
+            resultList.add(assignmentMap);
+        }
+        return resultList;
     }
 }
