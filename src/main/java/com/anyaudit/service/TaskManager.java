@@ -13,21 +13,22 @@ import java.util.Optional;
 
 @Service
 public class TaskManager  {
+    @Autowired
+    private TaskRepository taskRepository;
 
-    private final TaskRepository taskRepository;
-
-
-    private final UserRepository userRepository;
-
-
-    private final PlanRepository planRepository;
 
     @Autowired
-    public TaskManager(TaskRepository taskRepository, UserRepository userRepository, PlanRepository planRepository) {
-        this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
-        this.planRepository = planRepository;
-    }
+    private UserRepository userRepository;
+
+    @Autowired
+    private PlanRepository planRepository;
+
+//    @Autowired
+//    public TaskManager(TaskRepository taskRepository, UserRepository userRepository, PlanRepository planRepository) {
+//        this.taskRepository = taskRepository;
+//        this.userRepository = userRepository;
+//        this.planRepository = planRepository;
+//    }
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();

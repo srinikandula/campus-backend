@@ -2,7 +2,9 @@ package com.anyaudit.controllers;
 
 
 import com.anyaudit.dto.AssignmentNameIDDTO;
+import com.anyaudit.exception.UserNotFoundException;
 import com.anyaudit.models.Assignment;
+import com.anyaudit.models.Milestone;
 import com.anyaudit.service.AssignmentManager;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,15 +52,17 @@ public class AssignmentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAssignment(@PathVariable Long id, @RequestBody Assignment updatedAssignment) {
+    public ResponseEntity<?> updateAssignment(@PathVariable Long id, @RequestBody Assignment updated) {
         try {
-            Assignment savedAssignment = assignmentManager.updateAssignment(id, updatedAssignment);
-            return ResponseEntity.ok(savedAssignment);
+            Assignment savedMilestone = assignmentManager.updateAssignment(id, updated);
+            return ResponseEntity.ok(savedMilestone);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred while updating the assignment: " + e.getMessage());
         }
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAssignment(@PathVariable Long id) {
@@ -66,14 +70,26 @@ public class AssignmentController {
         return ResponseEntity.ok().body("Client with ID " + id + " successfully deleted.");
     }
 
-    @GetMapping("/findByClientId/{id}")
-    public List<AssignmentNameIDDTO> getClientAssignmentNames(@PathVariable("id") Long id) {
-        List<Assignment> assignments = assignmentManager.findAssignmentsByClientId(id);
-        List<AssignmentNameIDDTO> resultList = new ArrayList<>();
-        for (Assignment assignment : assignments) {
-            resultList.add(new AssignmentNameIDDTO(assignment));
-        }
-        return resultList;
+//    @GetMapping("/findByClientId/{id}")
+//    public List<AssignmentNameIDDTO> getClientAssignmentNames(@PathVariable("id") Long id) {
+//        List<Assignment> assignments = assignmentManager.findAssignmentsByClientId(id);
+//        List<AssignmentNameIDDTO> resultList = new ArrayList<>();
+//        for (Assignment assignment : assignments) {
+//            resultList.add(new AssignmentNameIDDTO(assignment));
+//        }
+//        return resultList;
+//    }
+@GetMapping("/findByClientId/{id}")
+public List<Map<String, Object>> getClientAssignment(@PathVariable("id") Long id) {
+    List<Object[]> assignments = assignmentManager.findAssignmentsByClientId(id);
+    List<Map<String, Object>> resultList = new ArrayList<>();
+    for (Object[] assignment : assignments) {
+        Map<String, Object> clientMap = new HashMap<>();
+        clientMap.put("assignment_id", assignment[0]);
+        clientMap.put("assignment_name", assignment[1]);
+        resultList.add(clientMap);
     }
+    return resultList;
+}
 }
 
