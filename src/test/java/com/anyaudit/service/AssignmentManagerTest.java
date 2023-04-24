@@ -77,7 +77,7 @@ class AssignmentManagerTest {
     }
 
     @Test
-    public void testAssignment() {
+    void testAssignment() {
         Assignment assignment = new Assignment();
         assignment.setAssignmentName("Test Assignment");
         assignment.setTypeofAssignment("Type A");

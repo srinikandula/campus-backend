@@ -1,6 +1,7 @@
 package com.anyaudit.service;
 
 import com.anyaudit.models.Client;
+import com.anyaudit.models.Milestone;
 import com.anyaudit.repository.ClientRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.validation.ConstraintViolationException;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -19,6 +21,8 @@ public class ClientControllerTest {
 
     @Autowired
     private ClientRepository clientRepository;
+    @Autowired
+    private ClientManager clientManager;
 
     @Test
     public void shouldSaveClient() {
@@ -31,15 +35,16 @@ public class ClientControllerTest {
         client.setFinancialFramework("Test Framework");
 
         // when
-        Client savedClient = clientRepository.save(client);
+        Client m = clientManager.addClient(client);
+        assertNotNull(m);
 
         // then
-        assertNotNull(savedClient.getId());
-        assertEquals("Test Client", savedClient.getName());
-        assertEquals("1234567890", savedClient.getPhoneNo());
-        assertEquals("test@example.com", savedClient.getEmail());
-        assertEquals("123456", savedClient.getFileNo());
-        assertEquals("Test Framework", savedClient.getFinancialFramework());
+        assertNotNull(m.getId());
+        assertEquals("Test Client", m.getName());
+        assertEquals("1234567890", m.getPhoneNo());
+        assertEquals("test@example.com", m.getEmail());
+        assertEquals("123456", m.getFileNo());
+        assertEquals("Test Framework", m.getFinancialFramework());
     }
 
     @Test
